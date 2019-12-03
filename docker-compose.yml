@@ -2,8 +2,8 @@ version: "3"
 
 services:
 
-  eosweb:
-    container_name: eosweb
+  daoweb:
+    container_name: daoweb
     build: .
     ports:
       - 3039:3039
@@ -26,6 +26,3 @@ services:
     environment:
       MONGO_URI: ${NODE_MONGO_URI}
       NODE_URI: ${NODE_URI}
-
-
-

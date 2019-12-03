@@ -10,7 +10,7 @@ import { MatButtonModule,
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
-import { CdkTableModule } from '@angular/cdk/table'; 
+import { CdkTableModule } from '@angular/cdk/table';
 
 import { AppComponent } from './app.component';
 import { appRoutes, appRoutingProviders } from './main.router';

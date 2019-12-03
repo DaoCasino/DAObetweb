@@ -37,7 +37,7 @@ export class AnalyticsPageComponent implements OnInit{
       autoScale : true,
       timeline: true,
       fitContainer : true
-  }; 
+  };
   frontConfig = environment.frontConfig;
   trx;
   actions;
@@ -53,7 +53,7 @@ export class AnalyticsPageComponent implements OnInit{
                       (res: any) => {
                           this.mainData = res;
                           this.pieChart = this.createPieChart(this.mainData);
-                          
+
                           let ELEMENT_DATA: Element[] = this.mainData;
                           this.dataSource = new MatTableDataSource<Element>(ELEMENT_DATA);
 
@@ -96,7 +96,7 @@ export class AnalyticsPageComponent implements OnInit{
      this.trx = [];
      this.actions = [];
      data.forEach(elem => {
-           this.trx.push({name: new Date(`${elem._id.year}/${elem._id.month}/${elem._id.dayOfMonth}`), 
+           this.trx.push({name: new Date(`${elem._id.year}/${elem._id.month}/${elem._id.dayOfMonth}`),
                           value: elem.transactions[elem.transactions.length - 1] - elem.transactions[0]  });
            this.actions.push({name: new Date(`${elem._id.year}/${elem._id.month}/${elem._id.dayOfMonth}`),
                               value: elem.actions[elem.actions.length - 1] - elem.actions[0] });
@@ -110,7 +110,7 @@ export class AnalyticsPageComponent implements OnInit{
             return;
         }
         let result = data.map(elem => {
-             return { name: elem.account_name, value: Math.floor(elem.balance_eos) }; 
+             return { name: elem.account_name, value: Math.floor(elem.balance_eos) };
         });
         result.shift();
         return result;
