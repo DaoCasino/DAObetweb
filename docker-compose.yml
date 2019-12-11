@@ -9,8 +9,8 @@ services:
       - 3039:3039
       - 9615:9615
     restart: always
-    links:
-      - daomongohistory
+    #    links:
+    #  - daomongohistory
     environment:
       ENVIRONMENT: ${ENVIRONMENT}
       MONGO_URI: ${NODE_MONGO_URI}
