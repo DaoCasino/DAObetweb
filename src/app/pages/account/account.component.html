@@ -132,10 +132,20 @@
 					<strong class="block-info-header">Voter Info:</strong>
 				</div>
 				<div class="col-sm-9">
-					<span class="account-info"> Vote: <small>{{ mainData?.voter_info?.last_vote_weight }}</small></span>
-					<span class="account-info"> Validator: <small>{{ mainData?.voter_info?.owner }}</small></span>
+					<span class="account-info"> Staked: <small>{{ mainData?.voter_info?.staked }} BET</small></span>
 				</div>
 			</div>
+
+      <div class="col-sm-12 block-info-line" *ngIf="!frontConfig?.customBalance">
+        <div class="col-sm-3">
+          <strong class="block-info-header">Validator:</strong>
+        </div>
+        <div class="col-sm-9">
+          <span class="account-info">
+            <a href="/producer/{{ mainData?.voter_info?.producers[0] }}">{{ mainData?.voter_info?.producers[0] }}</a>
+          </span>
+        </div>
+      </div>
 
 			<div class="col-sm-12 block-info-line" *ngIf="creator?.act?.data?.creator && !frontConfig?.customBalance">
 				<div class="col-sm-3">

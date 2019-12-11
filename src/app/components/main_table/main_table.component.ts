@@ -23,7 +23,7 @@ export interface Element {
   styleUrls: ['./main_table.component.css']
 })
 export class MainTableComponent implements OnInit, OnDestroy{
-  
+
   curve;
   currMap: any;
   currencyName = 'USD'; //(isPlatformBrowser(this.platformId)) ? this.getCookie('currencyName'): ;
@@ -48,7 +48,7 @@ export class MainTableComponent implements OnInit, OnDestroy{
 
   getData() {
       this.spinner = true;
-        this.http.get('/api/v1/get_last_blocks/6')
+        this.http.get('/api/v1/get_last_blocks/20')
                   .subscribe(
                       (res: any) => {
                           this.mainData = res;
@@ -65,7 +65,7 @@ export class MainTableComponent implements OnInit, OnDestroy{
                           this.spinner = false;
                       });
   }
-  
+
   createTransactionsArray(data) {
       if (!data){
           return;
@@ -81,7 +81,7 @@ export class MainTableComponent implements OnInit, OnDestroy{
                   }
                   let actions = [];
                   if (tr.trx && tr.trx.transaction && tr.trx.transaction.actions){
-                      actions = tr.trx.transaction.actions.map(act => { 
+                      actions = tr.trx.transaction.actions.map(act => {
                           act.block_num = tr.trx.id;
                       });
                       Array.prototype.push.apply(this.trxObj[elem.block_num], tr.trx.transaction.actions);
@@ -105,7 +105,7 @@ export class MainTableComponent implements OnInit, OnDestroy{
           return transactions.slice(0, this.offsetPageElems);
       }
 
-      
+
       return transactions;
   }
 

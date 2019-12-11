@@ -1,7 +1,8 @@
 body {
 	color: #fff;
-  background: #0a0b2a;
-  background-image: linear-gradient(to right, #02031c, #04042e);
+  /*background: #0a0b2a;*/
+  background: #02031c;
+  /*background-image: linear-gradient(to bottom, #02031c, #04042e);*/
 }
 
 .strong-content{
