@@ -63,8 +63,6 @@ export class AccountPageComponent implements OnInit, OnDestroy{
                           let ELEMENT_DATA: Element[] = res.permissions;
                           this.dataSourcePermission = new MatTableDataSource<Element>(ELEMENT_DATA);
 
-                          console.info(this.mainData)
-
                           this.spinner = false;
                       },
                       (error) => {
