@@ -41,6 +41,6 @@
   ],
   "theme_color": "#010217",
   "background_color": "#010217",
-  "start_url": "explorer.daobet.org",
+  "start_url": "mainnet.daovalidator.com",
   "display": "standalone"
 }
