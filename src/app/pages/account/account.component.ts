@@ -43,8 +43,8 @@ export class AccountPageComponent implements OnInit, OnDestroy{
   frontConfig = environment.frontConfig;
 
 
-  constructor(private route: ActivatedRoute, 
-              protected http: HttpClient, 
+  constructor(private route: ActivatedRoute,
+              protected http: HttpClient,
               private MainService: MainService,
               public dialog: MatDialog){
   }
@@ -63,6 +63,8 @@ export class AccountPageComponent implements OnInit, OnDestroy{
                           let ELEMENT_DATA: Element[] = res.permissions;
                           this.dataSourcePermission = new MatTableDataSource<Element>(ELEMENT_DATA);
 
+                          console.info(this.mainData)
+
                           this.spinner = false;
                       },
                       (error) => {
@@ -74,7 +76,7 @@ export class AccountPageComponent implements OnInit, OnDestroy{
   getBalance(accountId){
       this.http.get(`/api/v1/get_currency_balance/${this.frontConfig.tokenContract}/${accountId}/${this.frontConfig.totalBalance}`)
            .subscribe((res: any) => {
-                          this.unstaked = (!res[0]) ? 0 : Number(res[0].split(' ')[0]); 
+                          this.unstaked = (!res[0]) ? 0 : Number(res[0].split(' ')[0]);
                           let staked = 0;
                           if (this.mainData.voter_info && this.mainData.voter_info.staked){
                               staked = this.mainData.voter_info.staked;
@@ -83,7 +85,7 @@ export class AccountPageComponent implements OnInit, OnDestroy{
                             this.balance = this.unstaked;
                           } else {
                             this.balance = (this.frontConfig.coin !== 'WAX') ? this.unstaked + staked / 10000 : this.unstaked + staked / 100000000;
-                          } 
+                          }
                           this.eosRate = this.MainService.getEosPrice();
                       },
                       (error) => {
@@ -111,7 +113,7 @@ export class AccountPageComponent implements OnInit, OnDestroy{
                           this.dataSource = new MatTableDataSource<Element>(ELEMENT_DATA);
 
                           this.dataSource.filterPredicate = function(data, filter: string): boolean {
-                                      return data.action_trace.act.name.toLowerCase().includes(filter) || 
+                                      return data.action_trace.act.name.toLowerCase().includes(filter) ||
                                              data.action_trace.act.account.toLowerCase().includes(filter);
                           };
 
@@ -213,8 +215,8 @@ export class AccountPageComponent implements OnInit, OnDestroy{
       };
       data.forEach(elem => {
           if (elem.controlled_permission === "active"){
-             result.controlled_accounts.push(elem.controlled_account); 
-          }  
+             result.controlled_accounts.push(elem.controlled_account);
+          }
       });
       return result;
   }
@@ -226,7 +228,7 @@ export class AccountPageComponent implements OnInit, OnDestroy{
                           },
                           (error) => {
                               console.error(error);
-                          });      
+                          });
   }
 
   openDialogMemo(event, data){
@@ -264,7 +266,7 @@ export class AccountPageComponent implements OnInit, OnDestroy{
 
   ngOnDestroy() {
     this.block.unsubscribe();
-  }	
+  }
 }
 
 
