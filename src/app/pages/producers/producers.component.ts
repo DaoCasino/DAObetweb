@@ -23,7 +23,7 @@ export class ProducersPageComponent implements OnInit, OnDestroy{
   sortedArray;
   votesToRemove;
   timeToUpdate = 6000;
-  
+
   firstLoad = true;
   globalTableData;
   producer;
@@ -51,6 +51,9 @@ export class ProducersPageComponent implements OnInit, OnDestroy{
                           this.totalProducerVoteWeight = Number(results[1].rows[0].total_producer_vote_weight);
                           this.bpJson = results[2];
                           this.globalTable = results[1];
+
+                          this.producers_cnt = this.globalTable.rows[0].target_producer_schedule_size
+
                           this.getSupplyEOS(this.globalTable);
                           this.createTable(results[0], this.totalProducerVoteWeight, this.bpJson);
 
@@ -83,7 +86,7 @@ export class ProducersPageComponent implements OnInit, OnDestroy{
       let joinObj = {};
       if (!joinArr){
           return sortedArr;
-      }  
+      }
       joinArr.forEach(elem => {
            joinObj[elem.name] = {
               location: elem.location,
@@ -92,8 +95,8 @@ export class ProducersPageComponent implements OnInit, OnDestroy{
       });
       sortedArr.forEach(elem => {
             if(joinObj[elem.owner]){
-               elem.location = joinObj[elem.owner].location.toLowerCase(); 
-               elem.image = joinObj[elem.owner].image; 
+               elem.location = joinObj[elem.owner].location.toLowerCase();
+               elem.image = joinObj[elem.owner].image;
             }
       });
       return sortedArr;
