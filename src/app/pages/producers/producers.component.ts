@@ -23,13 +23,13 @@ export class ProducersPageComponent implements OnInit, OnDestroy{
   sortedArray;
   votesToRemove;
   timeToUpdate = 6000;
-
   firstLoad = true;
   globalTableData;
   producer;
   filterVal = '';
   bpJson;
   globalTable;
+  producers_cnt = 39;
   chainPercentage;
   chainNumber;
   frontConfig = environment.frontConfig;
