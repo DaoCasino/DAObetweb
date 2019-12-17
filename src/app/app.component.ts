@@ -62,6 +62,8 @@ export class AppComponent implements OnInit {
 
   getMainFrontConfig(){
     this.frontConfig.nets.forEach(elem => {
+          const host = window.location.host
+          elem.active = (elem.url.indexOf(host) > -1)
           if (elem.active){
              return this.netName = elem.name;
           }
