@@ -57,7 +57,7 @@ export const environment = {
 const chain = '37ec63023f051ad81db28e72e0b45ab81e60a150e80da240a5e6fa92b42fd7b7';
 export const environment = {
     production: true,
-    appName: 'DAObet',
+    appName: 'DAOBet',
     network: {
         blockchain: 'eos',
         host: 'api.daobet.org',
@@ -99,10 +99,8 @@ export const environment = {
        producers: 1000,
        social: [
          { link: 'https://github.com/daocasino', icon: 'fa-github' },
-         { link: 'https://www.facebook.com/Dao.casino', icon: 'fa-facebook' },
-         // { link: 'https://www.reddit.com/user/eosweb', icon: 'fa-reddit-alien' },
-         // { link: 'https://medium.com/@EoswebN', icon: 'fa-medium' },
-         { link: 'https://twitter.com/daocasino', icon: 'fa-twitter' },
+         { link: 'https://www.facebook.com/DAObet.org/', icon: 'fa-facebook' },
+         { link: 'https://twitter.com/daobet_org/', icon: 'fa-twitter' },
          { link: 'https://t.me/daobet_validators', icon: 'fa-telegram-plane' }
        ],
        liveTXenable: true

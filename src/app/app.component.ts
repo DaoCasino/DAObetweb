@@ -27,6 +27,7 @@ export class AppComponent implements OnInit {
   frontConfig = environment.frontConfig;
   env = environment;
   netName;
+  year = new Date().getFullYear();
   networks = [];
   darkTheme = (localStorage.getItem('darkTheme') === 'false') ? false : true;
 
