@@ -388,7 +388,7 @@ module.exports 	= (router, config, request, log, mongoMain, MARIA) => {
 	   	 		offset: (config.historyNewAPI) ? Math.abs(req.params.offset) : req.params.offset,
 	   	 		counter: 1
 		};
-	   	request.post({url:`${config.historyChain}/v1/history/get_actions`, json: formData}).pipe(res);
+	   	request.post({url:`${config.customChain}/v1/history/get_actions`, json: formData}).pipe(res);
 	});
 
 	/*
@@ -402,7 +402,7 @@ module.exports 	= (router, config, request, log, mongoMain, MARIA) => {
 	   	let	limit = (req.query.limit) ? queryString += `&limit=${req.query.limit}` : queryString;
 	   	let	sort = (req.query.sort) ? queryString += `&sort=${req.query.sort}` : queryString;
 	   	let	actionName = req.params.action_name;
-	   	request.get(`${config.historyChain}/v1/history/get_actions/${accountName}/${actionName}${queryString}`).pipe(res);
+	   	request.get(`${config.customChain}/v1/history/get_actions/${accountName}/${actionName}${queryString}`).pipe(res);
 	});
 
 	/*
