@@ -24,7 +24,8 @@ export class MainService {
     }*/
   };
   ungerKey = "EOS1111111111111111111111111111111114T1Anm";
-  liveTXHide = localStorage.getItem('liveTXHide') ? true : false;
+  // liveTXHide = localStorage.getItem('liveTXHide') ? true : false;
+  liveTXHide = true;
   frontConfig = environment.frontConfig;
 
   private messageSource = new BehaviorSubject("");
@@ -57,7 +58,7 @@ export class MainService {
           let eos_votes = Math.floor(this.calculateEosFromVotes(elem.total_votes));
           elem.all_votes = elem.total_votes;
           elem.total_votes = Number(eos_votes).toLocaleString();
-          
+
           result.push(elem);
       });
       return result;
@@ -79,7 +80,7 @@ export class MainService {
         elem.rate    = (!totalProducerVoteWeight) ? 0 : (elem.all_votes / totalProducerVoteWeight * 100).toLocaleString();
         elem.rewards = (!totalProducerVoteWeight) ? 0 : this.countRewards(elem.all_votes, elem.index, totalProducerVoteWeight);
       });
-      
+
       return data;
   }
 
@@ -87,7 +88,7 @@ export class MainService {
     let position = index;
     let reward = 0;
     let percentageVotesRewarded = total_votes / (totalProducerVoteWeight - this.votesToRemove) * 100;
-     
+
      if (position < 22) {
        reward = (this.frontConfig.coin === 'EOS') ? reward + 443 : 4909;
      }
@@ -109,7 +110,7 @@ export class MainService {
       let weight = parseInt(`${ date / (86400 * 7) }`, 10) / 52; // 86400 = seconds per day 24*3600
       return votes / (2 ** weight) / 10000;
   };
- 
+
 
   getGlobalNetConfig(){
     if (!this.getCookie("netsConf")){
