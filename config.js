@@ -40,6 +40,7 @@ config.telegram = {
 config.endpoints = [
   process.env.NODE_URI,
 ];
+config.chainId = process.env.CHAIN_ID;
 
 // eosjs
 config.eosConfig = {

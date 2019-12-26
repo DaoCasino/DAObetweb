@@ -35,31 +35,51 @@ async function updateProducersInfo(){
 	   	 	  		log.error("Empty url producer -", elem.owner);
 	   	 	  		return cb();
 	   	 	}
-	   	 	let url = (elem.url[elem.url.length - 1] === "/") ?  elem.url + `${config.producerJSON}` : elem.url + `/${config.producerJSON}`;
-	   	 	if (url.indexOf("http") === -1){
-	   	 		url = "http://" + url;
-	   	 	}
-	   	 	console.log(url);
-	   		req.get({url, rejectUnauthorized: false}, (error, response, body) => {
-	   		 		if (error){
-	   		 			console.error(error);
-	   		 			return cb();
-	   		 		}
-	   		 		let data;
-					try {
-    				    data = JSON.parse(body);
-    				} catch (e) {
-    					//console.log('Parse json', e);
-    				    return cb();
-    				}
-	   		 		saveProducerInfo(data, elem, (err) => {
-					if (err){
-							log.error(err);
-	   		 			}
-	   		 			console.log("Producer updated successfully !!!", data.producer_account_name);
-	   		 			cb();
-	   		 		});
-	   		});
+
+        let url = elem.url;
+        if(url[url.length - 1] !== "/") url = url + '/';
+	   	 	if (url.indexOf("http") === -1) url = "http://" + url;
+
+        let bpJSON = config.producerJSON
+
+        // console.log('')
+        // console.log('')
+        // console.log('')
+        // console.log(url+'chains.json')
+        req.get({url:url+'chains.json', rejectUnauthorized: false}, (err, res, result) => {
+          let chains = {};
+          try {
+            chains = JSON.parse(result);
+          } catch (e) {}
+
+        // console.log(chains)
+          if (chains && chains.chains && chains.chains[config.chainId]) {
+             bpJSON = chains.chains[config.chainId]
+          }
+
+       	 	url = url + bpJSON
+        // console.log('GET -', url)
+       		req.get({url, rejectUnauthorized: false}, (error, response, body) => {
+       		 		if (error){
+       		 			console.error(error);
+       		 			return cb();
+       		 		}
+       		 		let data;
+    				  try {
+      				    data = JSON.parse(body);
+      				} catch (e) {
+      					//console.log('Parse json', e);
+      				    return cb();
+      				}
+       		 		saveProducerInfo(data, elem, (err) => {
+    				if (err){
+    						log.error(err);
+       		 			}
+       		 			console.log("Producer updated successfully !!!", data.producer_account_name);
+       		 			cb();
+       		 		});
+       		});
+        }) // get chains
 	}, () => {
 		log.info("======= Producers list info updated successfully !!!");
 		process.exit();
