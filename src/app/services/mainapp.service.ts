@@ -90,9 +90,9 @@ export class MainService {
     let percentageVotesRewarded = total_votes / (totalProducerVoteWeight - this.votesToRemove) * 100;
 
      if (position < 22) {
-       reward = (this.frontConfig.coin === 'EOS') ? reward + 443 : 4909;
+       reward = (this.frontConfig.coin === 'BET') ? reward + 443 : 4909;
      }
-     if (this.frontConfig.coin === 'EOS'){
+     if (this.frontConfig.coin === 'BET'){
        reward += percentageVotesRewarded * 200;
      }
      if (reward < 100) {
