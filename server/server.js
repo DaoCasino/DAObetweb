@@ -11,6 +11,7 @@ const helmet        = require('helmet');
 const compression   = require('compression');
 const request       = require('request');
 const async			    = require('async');
+const fetch			    = require('node-fetch');
 
 const Sentry = require('@sentry/node');
 Sentry.init({
@@ -24,8 +25,10 @@ const config        = require(`../${configName}`);
 const mongoose      = require("mongoose");
 mongoose.set('useCreateIndex', true);
 
-const EOS           = require('eosjs');
-global.eos          = EOS(config.eosConfig);
+const {JsonRpc}     = require('eosjs');
+const rpc = new JsonRpc(config.eosConfig.httpEndpoint, { fetch });
+global.eos = rpc;
+// global.eos          =  EOS(config.eosConfig);
 
 const { logWrapper } = require('./utils/main.utils');
 const log            = new logWrapper('server');

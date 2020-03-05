@@ -57,7 +57,7 @@ module.exports = (io, mongoMain, metrics) => {
       let timeRequestStart = +new Date();
       async.parallel({
         info: cb => {
-          global.eos.getInfo({})
+          global.eos.get_info()
              .then(stat => {
                 cb(null, stat);
              })
@@ -169,7 +169,7 @@ module.exports = (io, mongoMain, metrics) => {
 
   function getRam(){
       let timeRequestStart = +new Date();
-      global.eos.getTableRows({
+      global.eos.get_table_rows({
           json: true,
           code: "eosio",
           scope: "eosio",

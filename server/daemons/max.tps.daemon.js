@@ -1,6 +1,6 @@
 /*
 	max TPS, APS daemons
-*/ 
+*/
 const { eos, SETTINGS_DB, STATS_ACCOUNT_DB, log, config } = require('./header')('tps');
 const { asyncWrapper } = require('../utils/main.utils');
 const wrapper = new asyncWrapper(log);
@@ -21,8 +21,8 @@ async function getMaxTps(){
 		settings = new SETTINGS_DB();
 		await wrapper.toStrong(settings.save());
 	}
-	
-	let info = await wrapper.toStrong(eos.getInfo({}));
+
+	let info = await wrapper.toStrong(eos.get_info());
 	if (!info.last_irreversible_block_num){
 		return log.error('Cant get info from blockchain!');
 	}
@@ -40,7 +40,7 @@ async function getBlockRecursive(settings, info, elements){
 	if (elements.length === 0){
 		 return await wrapper.toStrong(settings.save());
 	}
-	let [err, block] = await wrapper.to(eos.getBlock({ block_num_or_id: blockNumber }));
+	let [err, block] = await wrapper.to(eos.get_block(blockNumber));
 	if (err){
 		log.error('getMaxTps error - ', err);
 		return await getBlockRecursive(settings, info, elements);
@@ -51,7 +51,7 @@ async function getBlockRecursive(settings, info, elements){
 	}
 	if (counter === 1){
 		console.log(`=== Block ${blockNumber}, Max TPS: ${maxPerSec}, Actions: ${settings.actions}, Accounts: ${settings.accounts}`);
-		
+
 		let { trxCounter, actionsCounter, accounts } = getActionsCount(block);
 		currentTrx = trxCounter;
 		actCounter = actionsCounter;
@@ -67,7 +67,7 @@ async function getBlockRecursive(settings, info, elements){
 
 		settings.max_tps_block = (settings.max_tps < maxPerSec) ? blockNumber : settings.max_tps_block;
 		settings.max_tps = (settings.max_tps < maxPerSec) ? maxPerSec : settings.max_tps;
-		
+
 		currentTrx = 0;
 		previousTrx = 0;
 		currentTrxTime = 0;

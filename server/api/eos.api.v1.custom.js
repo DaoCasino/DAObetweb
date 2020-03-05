@@ -10,13 +10,13 @@ let customFunctions = {};
 
 customFunctions.getLastBlocks = (eos, elements, callback) => {
 	let resultArr = [];
-	eos.getInfo({})
-	   	.then(result => { 
+	eos.get_info()
+	   	.then(result => {
 	   		if (!result.head_block_num){
 	   			return callback('Cant get info from blockchain!');
 	   		}
 	   		async.each(elements, (elem, cb) => {
-	   			eos.getBlock({ block_num_or_id: result.head_block_num - elem })
+	   			eos.get_block(result.head_block_num - elem)
 	   				.then(block => {
 	   					resultArr.push(block);
 	   					cb();
@@ -41,14 +41,14 @@ customFunctions.getLastBlocks = (eos, elements, callback) => {
 };
 
 function getBlockOffset(){
-	  eos.getBlock({ block_num_or_id: result.head_block_num })
+	  eos.get_block(result.head_block_num)
 	     .then(block => {
 	     	    if (block.transactions && block.transactions.length > 0 && block.transactions.length < config.offsetElementsOnMainpage){
 					resultArr.push(block.transactions);
 	     	    } else if (block.transactions.length > config.offsetElementsOnMainpage){
 	     	    	block.transactions.slice(0, config.offsetElementsOnMainpage);
 	     	    }
-	     		
+
 	     })
 	     .catch(err => {
 	     		console.error('customFunctions getBlock error - ', err);

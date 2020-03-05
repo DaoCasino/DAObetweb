@@ -41,14 +41,21 @@ export class ProducerComponent implements OnInit, OnDestroy{
 
   getData(){
       this.spinner = true;
-  		let producers = this.http.get(`/api/custom/get_table_rows/eosio/eosio/producers/500`)
+  		let producers = this.http.get(`/api/custom/get_table_rows/eosio/eosio/producers/500`);
       let global     = this.http.get(`/api/v1/get_table_rows/eosio/eosio/global/1`);
+      let token      = this.http.get(`/api/custom/get_table_rows/eosio.token/BET/stat/1`);
 
-      forkJoin([producers, global])
+      forkJoin([producers, global, token])
   				 .subscribe(
                       (res: any) => {
                           this.totalProducerVoteWeight = Number(res[1].rows[0].total_producer_vote_weight);
-                          this.mainElement = this.findProducer(this.MainService.countRate(this.MainService.sortArray(res[0].rows), this.totalProducerVoteWeight));
+                          this.mainElement = this.findProducer(this.MainService.countRate(
+                            this.MainService.sortArray(res[0].rows),
+                            this.totalProducerVoteWeight,
+                            res[1],
+                            res[2],
+                            res[0]
+                          ));
                           console.log(this.mainElement)
                           this.getBP(this.mainElement);
                           this.spinner = false;
@@ -132,7 +139,7 @@ export class ProducerComponent implements OnInit, OnDestroy{
   }
 
   ngOnDestroy() {
-    this.producer.unsubscribe(); 
+    this.producer.unsubscribe();
   }
 }
 

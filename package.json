@@ -4,6 +4,7 @@
   "scripts": {
     "start": "ng serve --proxy-config proxy.conf.json",
     "build": "ng build --prod --aot",
+    "dev": "ng build --source-map=false",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
@@ -35,6 +36,7 @@
     "moment": "^2.24.0",
     "ng-socket-io": "^0.2.4",
     "ngx-json-viewer": "^2.4.0",
+    "node-sass": "^4.13.1",
     "rxjs": "~6.3.3",
     "rxjs-compat": "^6.3.3",
     "set-value": "^2.0.1",

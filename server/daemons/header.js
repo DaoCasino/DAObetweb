@@ -6,6 +6,7 @@ const request		= require('request-promise');
 const req			= require('request');
 const path 			= require("path");
 const fs 			= require("fs");
+const fetch   = require("node-fetch");
 
 const configName    = (process.env.CONFIG) ? process.env.CONFIG : 'config';
 const config        = require(`../../${configName}`);
@@ -13,9 +14,13 @@ const config        = require(`../../${configName}`);
 const mongoose      = require("mongoose");
 mongoose.Promise  	= global.Promise;
 
-const EOS     		= require('eosjs');
+// const EOS     		= require('eosjs');
 config.eosConfig.httpEndpoint = (config.CRON) ? config.CRON_API : config.eosConfig.httpEndpoint;
-const eos     		= EOS(config.eosConfig);
+// const eos     		= EOS(config.eosConfig);
+
+const {JsonRpc}     = require('eosjs');
+const rpc = new JsonRpc(config.eosConfig.httpEndpoint, { fetch });
+global.eos = rpc;
 
 module.exports = (loggerFileName) => {
 	const { logWrapper } = require('../utils/main.utils');

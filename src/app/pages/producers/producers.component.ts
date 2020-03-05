@@ -44,8 +44,9 @@ export class ProducersPageComponent implements OnInit, OnDestroy{
   		let producers  = this.http.get(`/api/custom/get_table_rows/eosio/eosio/producers/${this.frontConfig.producers}`);
       let global     = this.http.get(`/api/v1/get_table_rows/eosio/eosio/global/1`);
       let bpInfo     = this.http.get(`/api/v1/get_producers_bp_json`);
+      let token      = this.http.get(`/api/custom/get_table_rows/eosio.token/BET/stat/1`);
 
-      forkJoin([producers, global, bpInfo])
+      forkJoin([producers, global, bpInfo, token])
   				 .subscribe(
                       (results: any) => {
                           this.totalProducerVoteWeight = Number(results[1].rows[0].total_producer_vote_weight);
@@ -55,11 +56,12 @@ export class ProducersPageComponent implements OnInit, OnDestroy{
                           this.producers_cnt = this.globalTable.rows[0].target_producer_schedule_size
 
                           this.getSupplyEOS(this.globalTable);
-                          this.createTable(results[0], this.totalProducerVoteWeight, this.bpJson);
+                          this.createTable(results[0], this.totalProducerVoteWeight, this.bpJson, results[1], results[3], results[0]);
 
                           this.socket.on('producers', (data) => {
                             if (!data) return;
-                            this.createTable(data, this.totalProducerVoteWeight, this.bpJson);
+                            console.trace(data)
+                            this.createTable(data, this.totalProducerVoteWeight, this.bpJson, results[1], results[3], data);
                           });
 
                           this.spinner = false;
@@ -70,12 +72,20 @@ export class ProducersPageComponent implements OnInit, OnDestroy{
                       });
   };
 
-  createTable(table, totalVotes, bpJson){
+  createTable(table, totalVotes, bpJson, globalTable, tokenTable, producersTable) {
+      // table = /api/custom/get_table_rows/eosio/eosio/producers/
+      // globalTable = /api/v1/get_table_rows/eosio/eosio/global/1
       if (this.filterVal.length > 0){
           return console.log('filter val');
       }
       this.mainData = table.rows;
-      this.globalTableData = this.joinOtherProducerInfo(this.MainService.countRate(this.MainService.sortArray(this.mainData), totalVotes), bpJson);
+      this.globalTableData = this.joinOtherProducerInfo(this.MainService.countRate(
+        this.MainService.sortArray(this.mainData),
+        totalVotes,
+        globalTable,
+        tokenTable,
+        producersTable,
+      ), bpJson);
       let ELEMENT_DATA: Element[] = this.globalTableData;
       this.dataSource = new MatTableDataSource<Element>(ELEMENT_DATA);
       this.dataSource.paginator = this.paginator;

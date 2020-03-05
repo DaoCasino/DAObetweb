@@ -19,7 +19,7 @@ async function getAccountsAnalytics (){
 	}
 
 	asyncjs.eachLimit(accounts, config.limitAsync, (elem, cb) => {
-			eos.getAccount({ account_name: elem.account_name })
+			eos.get_account(elem.account_name)
 				.then(account => {
 					findBalanceAndUpdate(account, () => {
 						console.log(`==== Accounts updated - ${elem.account_name}, cursor `, counter++);
@@ -54,10 +54,11 @@ function findBalanceAndUpdate(account, callback) {
 			accInfo.staked = account.voter_info.staked / eosToInt;
       }
 
- 	  eos.getCurrencyBalance({
-      			code: 'eosio.token',
-      			account: account.account_name
-			}).then(balance => {
+ 	  eos.get_currency_balance(
+      			'eosio.token',
+      			account.account_name,
+            'BET'
+			).then(balance => {
 	   	 		accInfo.balance = Array.isArray(balance) ? balance : [];
 	   	 		accInfo.balance.forEach((elem) => {
 	   	 			if (elem.indexOf('BET') !== -1){
