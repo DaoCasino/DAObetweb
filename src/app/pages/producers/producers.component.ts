@@ -60,7 +60,6 @@ export class ProducersPageComponent implements OnInit, OnDestroy{
 
                           this.socket.on('producers', (data) => {
                             if (!data) return;
-                            console.trace(data)
                             this.createTable(data, this.totalProducerVoteWeight, this.bpJson, results[1], results[3], data);
                           });
 
@@ -86,6 +85,11 @@ export class ProducersPageComponent implements OnInit, OnDestroy{
         tokenTable,
         producersTable,
       ), bpJson);
+      const totalRewards = this.globalTableData.reduce((acc, val) => {
+        return acc + Number(val.rewards);
+      }, 0);
+      console.log(`Total Rewards = ${totalRewards}`);
+      // console.log(this.globalTableData);
       let ELEMENT_DATA: Element[] = this.globalTableData;
       this.dataSource = new MatTableDataSource<Element>(ELEMENT_DATA);
       this.dataSource.paginator = this.paginator;
