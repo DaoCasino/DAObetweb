@@ -122,9 +122,9 @@ export class ProducersPageComponent implements OnInit, OnDestroy{
       }
 
       const activeStake = Number(global.rows[0].active_stake) / 10000;
-      const maxSupply = Number(token.rows[0].max_supply.split(' ')[0]);
+      const supply = Number(token.rows[0].supply.split(' ')[0]);
 
-      this.chainPercentage = (activeStake / maxSupply * 100).toFixed(2);
+      this.chainPercentage = (activeStake / supply * 100).toFixed(2);
       this.chainNumber = activeStake;
   }
 
