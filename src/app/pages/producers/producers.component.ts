@@ -116,16 +116,16 @@ export class ProducersPageComponent implements OnInit, OnDestroy{
       return sortedArr;
   }
 
-  calculateTotalVotes(global, supply){
-      if (!global || !global.rows || !global.rows[0] || !global.rows[0].total_activated_stake){
+  calculateTotalVotes(global, token) {
+      if (!global || !global.rows || !global.rows[0]){
           return;
       }
-      /*if(this.frontConfig.coin === 'WAX'){
-          this.chainPercentage = (global.rows[0].total_activated_stake / 100000000 / supply * 100).toFixed(2);
-          this.chainNumber = global.rows[0].total_activated_stake / supply * 100000;
-      }*/
-      this.chainPercentage = (global.rows[0].total_activated_stake / 10000 / supply * 100).toFixed(2);
-      this.chainNumber = global.rows[0].total_activated_stake / supply * 100000;
+
+      const activeStake = Number(global.rows[0].active_stake) / 10000;
+      const maxSupply = Number(token.rows[0].max_supply.split(' ')[0]);
+
+      this.chainPercentage = (activeStake / maxSupply * 100).toFixed(2);
+      this.chainNumber = activeStake;
   }
 
   getSupplyEOS(globalTable){
@@ -134,7 +134,7 @@ export class ProducersPageComponent implements OnInit, OnDestroy{
                 if (!res || !res.rows || !res.rows[0] || !res.rows[0].supply){
                     return;
                 }
-                this.calculateTotalVotes(globalTable, Number(res.rows[0].supply.split(" ")[0]));
+                this.calculateTotalVotes(globalTable, res);
              }, err => {
                 console.log(err);
              });
