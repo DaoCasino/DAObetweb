@@ -9,8 +9,15 @@ const bodyParser    = require('body-parser');
 const fs            = require('fs');
 const helmet        = require('helmet');
 const compression   = require('compression');
-const request       = require('request');
-const async			    = require('async');
+const request = require('request').defaults({
+  headers: {
+    'Cache-Control': 'no-cache, no-store, must-revalidate, proxy-revalidate',
+    'Pragma': 'no-cache',
+    'Expires': '0',
+    'Surrogate-Control': 'no-store'
+  }
+});
+const nocache       = require('nocache');
 
 const Sentry = require('@sentry/node');
 Sentry.init({
@@ -58,6 +65,7 @@ let metrics = {
 };
 
 const app  = express();
+app.use(nocache());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
